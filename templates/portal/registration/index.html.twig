@@ -1,0 +1,30 @@
+{% extends 'main.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+{% endblock %}
+
+{% block javascripts %}
+	{% block importmap %}{{ importmap('app') }}{% endblock %}
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+{% block main %}
+<div id="main-content">
+	<div id="content-head">
+		<div class="user-info">
+			{% if user %}
+			{{ 'Hello'|trans() }} <span>{{ user.name }}</span>!
+			<a href="/logout" class="btn btn-primary">{{ 'Logout'|trans() }}</a>
+			{% else %}
+			<a href="{{ path('app_login') }}" class="btn btn-info">{{ 'Sign in'|trans() }}</a>
+			{{ 'or'|trans() }} <a href="{{ path('app_registration') }}" class="btn btn-dark">{{ 'Sign up'|trans() }}</a>
+			{% endif %}
+		</div>
+		<h2>{{ 'Demo Webshop'|trans() }}</h2>
+	</div>
+	<div>
+		{{ form(form) }}
+	</div>
+</div>
+{% endblock %}

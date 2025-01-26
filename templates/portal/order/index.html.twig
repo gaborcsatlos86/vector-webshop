@@ -1,0 +1,99 @@
+{% macro menu_links(links) %}
+    {% import _self as macros %}
+    {% for link in links %}
+        <li class="nav-item">
+            <a class="nav-link btn btn-outline-dark"  href="{{ path('app_category_view', { category: link.item.id}) }}">{{ link.item.name }}</a>
+            {% if link.children %}
+                <ul class="nav flex-column">
+                    {{ macros.menu_links(link.children) }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+{% import _self as macros %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Vector test Webshop{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        <header>
+		  <h2>Vector test Webshop By Gabor Csatlos</h2>
+		</header>
+        <section>
+        	<nav id="side-navigation">
+	        	<ul class="nav flex-column">
+	        	  {{ macros.menu_links(categories) }}
+			    </ul>
+        	</nav>
+        	{% block main %}
+        	<div id="main-content">
+				<div id="content-head">
+					<div class="user-info">
+						{% if user %}
+						{{ 'Hello'|trans() }} <span>{{ user.name }}</span>!
+						<a href="/logout" class="btn btn-primary">{{ 'Logout'|trans() }}</a>
+						{% else %}
+						<a href="{{ path('app_login') }}" class="btn btn-info">{{ 'Sign in'|trans() }}</a>
+						{{ 'or'|trans() }} <a href="{{ path('app_registration') }}" class="btn btn-dark">{{ 'Sign up'|trans() }}</a>
+						{% endif %}
+					</div>
+					<h2>{{ 'Demo Webshop'|trans() }} - {{ 'Order'|trans() }}</h2>
+				</div>
+				<div>
+					{% for message in app.flashes('notice') %}
+					    <div class="flash-notice">
+					        {{ message }}
+					    </div>
+					{% endfor %}
+					<form action="{{ path('app_order_close') }}" method="post" data-turbo="false">
+					    <label class="sr-only" for="name">{{ 'Name'|trans }}:</label>
+	        			<input class="form-control" type="text" id="name" name="name" value="{% if user %}{{ user.name }}{% endif %}" required>
+					    <label class="sr-only" for="address">{{ 'Address'|trans }}:</label>
+	        			<input class="form-control" type="text" id="address" name="address" value="{% if user %}{{ user.address }}{% endif %}" required>
+	        			<br />
+						<table class="table">
+				    		<thead>
+							    <tr>
+							        <th scope="col">{{ 'Item'|trans() }}</th>
+							        <th scope="col">{{ 'Item price'|trans() }}</th>
+							        <th scope="col">{{ 'count'|trans() }}</th>
+							        <th scope="col">{{ 'Price'|trans() }}</th>
+							    </tr>
+							  </thead>
+							  <tbody id="cart">
+							  {% for cartItem in cart %}
+							  	  <tr>
+							  	  	<th scope="row">{{ cartItem.name }}</th>
+							  	  	<td>{{ cartItem.price }}</td>
+							  	  	<td>{{ cartItem.num }}</td>
+							  	  	<td>{{ cartItem.sumPrice }}</td>
+							  	  </tr>
+							  {% endfor %}
+							  </tbody>
+				    	</table>
+				    	{{ 'Sum price'|trans() }}: <span id="sumPrice">{{ sumPrice }}</span><br />
+			    		<button class="btn btn-lg btn-primary btn-block" type="submit"{% if not user %} disabled{% endif %}>{{ 'Submit order'|trans() }}</button>
+	    			</form>
+				</div>
+			</div>
+        	{% endblock %}
+        </section>
+        {% endblock %}
+    </body>
+</html>

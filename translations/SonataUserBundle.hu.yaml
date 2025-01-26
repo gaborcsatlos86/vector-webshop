@@ -1,0 +1,12 @@
+ROLE_SUPER_ADMIN: Super Admin jog
+ROLE_ALLOWED_TO_SWITCH: Felhasználót válthat jog
+ROLE_SONATA_ADMIN: Sonata Admin jog
+ROLE_ADMIN: Admin jog
+ROLE_USER: Felhasználói jog
+default: alapértlemezett
+form.group_extra: Extra
+form.label_address: Cím
+list.label_address: Cím
+show.label_address: Cím
+filter.label_address: Cím
+Users: Felhasználók

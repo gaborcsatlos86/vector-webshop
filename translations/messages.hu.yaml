@@ -1,0 +1,58 @@
+Demo Webshop: Demó Webáruház
+Product Number: Cikkszám
+Name: Név
+Description: Leírás
+Price: Ár
+Actual Stock Amount: Aktuális raktár készlet
+Product List: Termék lista
+Product: Termék
+Order: Rendelés
+Title: Cím
+Short Text: Rövid szöveg
+Category: Kategória
+Cart: Kosár
+Item: Tétel
+Items: Tételek
+Item price: Egységár
+count: mennyiség
+Sum price: Ősszesen
+Add to cart: Kosárba
+Clear cart: Kosár kiürítése
+Hello: Helló
+Logout: Kijelentkezés
+Sign in: Lépj be
+Sign up: Regisztráljon
+Please sign in: Kérlek, lépj be
+Username: Felhasználó név
+Password: Jelszó
+Keep me logged in: Maradjak belépve
+login: belépés
+or: vagy
+Email: Email
+pelda.felhasznalo: pelda.felhasznalo
+Repeat Password: Jelszó mégegyszer
+Address: Cím
+Save: Mentés
+Submit order: Rendelés leadása
+Order created: Rendelése elkészült!
+
+Id: Azonosító
+User Username: Felhasználónév
+State Value: Állapot
+Sum Price: Végösszeg
+created: Létrehozva
+Created At: Létrehozva
+User: Felhasználó
+Order List: Megrendelés lista
+Actions: Akciók
+product_store_action: Készlet módosítás
+Action: Esemény
+Amount: Mennyiség
+init: Inicializálás
+remove: Kivétel
+add: Bevételezés
+Init: Inicializálás
+Add: Bevételezés
+Remove: Kivétel
+Product Store Activity List: Termék raktár készlet
+Product Store: Raktár készlet mozgás

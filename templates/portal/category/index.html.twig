@@ -1,0 +1,40 @@
+{% extends 'main.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+{% endblock %}
+
+{% block javascripts %}
+	{% block importmap %}{{ importmap('app') }}{% endblock %}
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+{% block main %}
+<div id="main-content">
+	<div id="content-head">
+		<div class="user-info">
+			{% if user %}
+			{{ 'Hello'|trans() }} <span>{{ user.name }}</span>!
+			<a href="/logout" class="btn btn-primary">{{ 'Logout'|trans() }}</a>
+			{% else %}
+			<a href="{{ path('app_login') }}" class="btn btn-info">{{ 'Sign in'|trans() }}</a>
+			{{ 'or'|trans() }} <a href="{{ path('app_registration') }}" class="btn btn-dark">{{ 'Sign up'|trans() }}</a>
+			{% endif %}
+		</div>
+		<h2>{{ 'Demo Webshop'|trans() }} - {{ actualCategory.name }}</h2>
+	</div>
+	<div>
+		{% for product in products %}
+		<div class="card" style="width: 18rem; float: left; margin-right: 20px">
+		  <div class="card-body">
+		    <h5 class="card-title">{{ product.name }}</h5>
+		    <span>#{{ product.productNumber }}</span>
+		    <p class="card-text">{{ product.description }}</p>
+		    {{ 'Price'|trans() }}: <span>{{ product.price }}</span><br />
+		    <a href="#" {% if product.actualStockAmount > 0 %}onclick="addCart({{ product.id }});return false;"{% endif %} class="btn btn-primary{% if product.actualStockAmount == 0 %} disabled{% endif %}">{{ 'Add to cart'|trans() }}</a>
+		  </div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
