@@ -1,0 +1,59 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    
+    App\Service\Admin\DecoratingDataSource:
+        decorates: 'sonata.admin.data_source.orm'
+    
+    admin.webshop.product:
+        class: App\Admin\Webshop\ProductAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Webshop\Product, manager_type: orm, label: Product, group: Webshop, icon: '<i class="fa fa-gears"></i>' }
+    admin.webshop.product_store_activity:
+        class: App\Admin\Webshop\ProductStoreActivityAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Webshop\ProductStoreActivity,  manager_type: orm, label: 'Product Store', group: Webshop, icon: '<i class="fa fa-gears"></i>' }
+
+    admin.webshop.order:
+        class: App\Admin\Webshop\OrderAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Webshop\Order, manager_type: orm, label: Order, group: Webshop, icon: '<i class="fa fa-gears"></i>' }
+            
+    sonata.user.manager.user:
+        class: Sonata\UserBundle\Entity\UserManager
+        arguments:
+            - App\Entity\User
+            - '@doctrine'
+            - '@sonata.user.util.canonical_fields_updater'
+            - '@security.password_hasher'
+    
+    sonata.user.admin.user:
+        class: App\Admin\UserAdmin
+        arguments:
+            $userManager: '@sonata.user.manager.user'
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: users, group: Users, translation_domain: SonataUserBundle, label_translator_strategy: sonata.admin.label.strategy.underscore, icon: '<i class="fa fa-users"></i>'}
+        
+        
+                 
